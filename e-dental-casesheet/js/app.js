@@ -310,6 +310,25 @@ document.addEventListener('DOMContentLoaded', () => {
       const dialogTxt = document.getElementById('sb-dialog-status-text');
       const disconnectBtn = document.getElementById('sb-disconnect-btn');
 
+      if (!navigator.onLine) {
+        if (dot) {
+          dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping';
+        }
+        if (txt) txt.textContent = '⚠️ أوفلاين: لا يوجد إنترنت';
+        if (dialogDot) dialogDot.className = 'w-3 h-3 rounded-full bg-amber-500 animate-pulse';
+        if (dialogTxt) dialogTxt.textContent = 'الحالة الحالية: غير متصل بالإنترنت (وضع أوفلاين) • يتم الحفظ محلياً بأمان';
+        if (sbBtn) {
+          sbBtn.classList.add('border-amber-400', 'bg-amber-50', 'text-amber-900');
+          sbBtn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700', 'border-emerald-300', 'bg-emerald-50', 'text-emerald-900');
+        }
+        return;
+      }
+
+      if (sbBtn) {
+        sbBtn.classList.remove('border-amber-400', 'bg-amber-50', 'text-amber-900');
+        sbBtn.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+      }
+
       const isConfigured = window.EDentalSupabase && window.EDentalSupabase.isConfigured();
       if (isConfigured) {
         if (dot) {
@@ -329,6 +348,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (disconnectBtn) disconnectBtn.classList.add('hidden');
       }
     };
+
+    window.addEventListener('online', updateStatusPill);
+    window.addEventListener('offline', updateStatusPill);
 
     updateStatusPill();
 
@@ -1136,6 +1158,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await window.EDentalSupabase.saveCase(payload);
       if (result.source === 'supabase') {
         showToast(`تم الحفظ السحابي في سوبابيس بنجاح! 🟢☁️ (${patientName})`, 'success');
+      } else if (result.source === 'offline_queue') {
+        showToast(`⚠️ تنبيه: لا يوجد إنترنت! تم حفظ الحالة محلياً بأمان، وستتم المزامنة فور عودة النت ⏳ (${patientName})`, 'warning');
       } else {
         showToast(`تم الحفظ كمسودة محلياً بنجاح باسم (${patientName})`, 'info');
       }
