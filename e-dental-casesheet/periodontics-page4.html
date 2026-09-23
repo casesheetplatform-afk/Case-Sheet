@@ -1150,7 +1150,7 @@
 
         const res = await window.EDentalSupabase.saveCase(payload);
         if (res.source === 'supabase') {
-          alert('تم حفظ استمارة المرحلة الرابعة بنجاح محلياً وسحابياً في سوبابيس! 🟢☁️ (الدرجة: ' + totalScore + ' / 10)');
+          alert('تم حفظ واعتماد استمارة المرحلة الرابعة بنجاح محلياً وسحابياً! 🟢☁️ (الدرجة: ' + totalScore + ' / 10)');
           return;
         } else if (res.source === 'offline_queue') {
           alert('⚠️ تحذير: لا يوجد اتصال بالإنترنت! تم حفظ استمارة اللثة والتقليح محلياً بأمان (Offline)، وستتم المزامنة تلقائياً فور توفر النت ⏳ (الدرجة: ' + totalScore + ' / 10)');

@@ -1157,7 +1157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.EDentalSupabase) {
       const result = await window.EDentalSupabase.saveCase(payload);
       if (result.source === 'supabase') {
-        showToast(`تم الحفظ السحابي في سوبابيس بنجاح! 🟢☁️ (${patientName})`, 'success');
+        showToast(`تم حفظ واعتماد السجل السريري بنجاح! 🟢☁️ (${patientName})`, 'success');
       } else if (result.source === 'offline_queue') {
         showToast(`⚠️ تنبيه: لا يوجد إنترنت! تم حفظ الحالة محلياً بأمان، وستتم المزامنة فور عودة النت ⏳ (${patientName})`, 'warning');
       } else {

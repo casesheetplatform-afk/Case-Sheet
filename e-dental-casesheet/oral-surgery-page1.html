@@ -995,7 +995,7 @@
       if (window.EDentalSupabase && window.EDentalSupabase.isConfigured()) {
         const res = await window.EDentalSupabase.saveCase(formData);
         if (res.source === 'supabase') {
-          alert('تم الحفظ بنجاح محلياً وسحابياً في سوبابيس! 🟢☁️');
+          alert('تم الحفظ والاعتماد السريري بنجاح محلياً وسحابياً! 🟢☁️');
           return;
         } else if (res.source === 'offline_queue') {
           alert('⚠️ تحذير: لا يوجد اتصال بالإنترنت! تم حفظ بيانات الصفحة الأولى محلياً بأمان (Offline)، وستتم المزامنة السحابية تلقائياً فور توفر النت ⏳');

@@ -1179,7 +1179,7 @@
 
         const res = await window.EDentalSupabase.saveCase(payload);
         if (res.source === 'supabase') {
-          alert('تم الحفظ بنجاح محلياً وسحابياً في سوبابيس! 🟢☁️ (الدرجة الإجمالية: ' + totalScore + ' / 10)');
+          alert('تم الحفظ والاعتماد السريري بنجاح محلياً وسحابياً! 🟢☁️ (الدرجة الإجمالية: ' + totalScore + ' / 10)');
           return;
         } else if (res.source === 'offline_queue') {
           alert('⚠️ تحذير: لا يوجد اتصال بالإنترنت! تم حفظ الصفحة الثانية والتقييم السريري محلياً بأمان (Offline)، وستتم المزامنة تلقائياً فور توفر النت ⏳ (الدرجة: ' + totalScore + ' / 10)');

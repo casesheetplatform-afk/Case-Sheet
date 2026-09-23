@@ -258,7 +258,7 @@ CREATE INDEX IF NOT EXISTS idx_case_sheets_status ON public.case_sheets(status);
 
     const client = getClient();
     if (!client) {
-      return { success: false, message: 'سوبابيس غير مهيأ' };
+      return { success: false, message: 'النظام السحابي غير مهيأ' };
     }
 
     const queue = getSyncQueue();
@@ -266,7 +266,7 @@ CREATE INDEX IF NOT EXISTS idx_case_sheets_status ON public.case_sheets(status);
       return { success: true, count: 0, message: 'لا توجد حالات معلقة للمزامنة' };
     }
 
-    showNetworkBanner('syncing', `جاري المزامنة السحابية لـ (${queue.length}) كيس شيت مع سوبابيس... ⏳`);
+    showNetworkBanner('syncing', `جاري المزامنة السحابية لـ (${queue.length}) كيس شيت... ⏳`);
 
     let syncedCount = 0;
     const remaining = [];
@@ -371,7 +371,7 @@ CREATE INDEX IF NOT EXISTS idx_case_sheets_status ON public.case_sheets(status);
     } else {
       const queue = getSyncQueue();
       if (queue.length > 0) {
-        showNetworkBanner('offline', `🟢 متصل بالإنترنت: يوجد (${queue.length}) كيس شيت بانتظار المزامنة مع سوبابيس.`);
+        showNetworkBanner('offline', `🟢 متصل بالإنترنت: يوجد (${queue.length}) كيس شيت بانتظار المزامنة السحابية.`);
       } else {
         hideNetworkBanner();
       }
@@ -398,7 +398,7 @@ CREATE INDEX IF NOT EXISTS idx_case_sheets_status ON public.case_sheets(status);
         txt.textContent = `مزامنة (${queue.length} معلقة) ⏳`;
       } else {
         dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse';
-        txt.textContent = 'سوبابيس: متصل 🟢';
+        txt.textContent = 'السجل السريري: متزامن 🟢';
       }
       if (btn) {
         btn.classList.remove('border-amber-400', 'bg-amber-50', 'text-amber-900');
@@ -415,7 +415,7 @@ CREATE INDEX IF NOT EXISTS idx_case_sheets_status ON public.case_sheets(status);
 
   window.addEventListener('online', () => {
     updateHeaderPill();
-    showNetworkBanner('success', '🟢 تم استعادة الاتصال بالإنترنت بنجاح! جاري فحص ومزامنة البيانات مع سوبابيس...');
+    showNetworkBanner('success', '🟢 تم استعادة الاتصال بالإنترنت بنجاح! جاري فحص ومزامنة البيانات سحابياً...');
     setTimeout(() => {
       syncPendingQueue();
     }, 1200);
@@ -442,7 +442,7 @@ CREATE INDEX IF NOT EXISTS idx_case_sheets_status ON public.case_sheets(status);
       return {
         success: true,
         source: 'local',
-        message: 'تم الحفظ محلياً في الذاكرة (سوبابيس غير متصل).'
+        message: 'تم الحفظ محلياً في الذاكرة بنجاح.'
       };
     }
 
@@ -456,7 +456,7 @@ CREATE INDEX IF NOT EXISTS idx_case_sheets_status ON public.case_sheets(status);
         .select();
 
       if (error) {
-        console.warn('Supabase save error, adding to offline queue:', error);
+        console.warn('Cloud save error, adding to offline queue:', error);
         saveCaseToLocalFallback(casePayload);
         addToSyncQueue(casePayload);
         return {
@@ -478,16 +478,16 @@ CREATE INDEX IF NOT EXISTS idx_case_sheets_status ON public.case_sheets(status);
         success: true,
         source: 'supabase',
         data: data,
-        message: 'تم الحفظ والمزامنة السحابية بنجاح في سوبابيس! 🟢☁️'
+        message: 'تم الحفظ والمزامنة السحابية للسجل بنجاح! 🟢☁️'
       };
     } catch (err) {
-      console.error('Fatal error saving to Supabase:', err);
+      console.error('Fatal error saving to cloud:', err);
       saveCaseToLocalFallback(casePayload);
       addToSyncQueue(casePayload);
       return {
         success: true,
         source: 'offline_queue',
-        message: '⚠️ لا يوجد اتصال كافٍ بسوبابيس! تم حفظ الاستمارة محلياً وستتم المزامنة تلقائياً فور توفر النت.'
+        message: '⚠️ تعذر الاتصال السحابي حالياً! تم حفظ الاستمارة محلياً وستتم المزامنة تلقائياً فور توفر النت.'
       };
     }
   }
